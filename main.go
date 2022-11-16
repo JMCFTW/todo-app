@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type Todo struct {
@@ -13,7 +14,7 @@ type Todo struct {
 }
 
 func main() {
-	todos := []Todo{}
+	var todos []Todo
 	router := gin.Default()
 
 	router.POST("api/todos", func(context *gin.Context) {
@@ -28,6 +29,15 @@ func main() {
 	})
 
 	router.GET("api/todos", func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{"todos": todos})
+	})
+
+	router.PATCH("api/todos/:id/done", func(context *gin.Context) {
+		id, err := strconv.Atoi(context.Param("id"))
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+		todos[id-1].Done = true
 		context.JSON(http.StatusOK, gin.H{"todos": todos})
 	})
 
