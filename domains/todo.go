@@ -18,7 +18,3 @@ type TodoUsecase interface {
 	DoneById(id int) (int, error)
 	GetAll() []Todo
 }
-
-type Controller interface {
-	Execute()
-}
