@@ -10,7 +10,7 @@ RUN CGO_ENABLED=0 go build cmd/main.go
 
 # Now copy it into our base image.
 FROM gcr.io/distroless/static-debian11
-COPY --from=build /go/src/app /
+COPY --from=build /go/src/app/main /
 
 ENV GIN_MODE=release
 ENV PORT=8080
