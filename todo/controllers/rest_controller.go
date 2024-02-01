@@ -11,15 +11,17 @@ type RestController struct {
 	todoUsecase todo.TodoUsecase
 }
 
-func NewRestController(engine *gin.Engine, usecase todo.TodoUsecase) {
+func NewRestController(usecase todo.TodoUsecase) error {
+	router := gin.Default()
 	controller := &RestController{
 		todoUsecase: usecase,
 	}
-	engine.POST("api/todos", controller.PostTodo)
+	router.POST("api/todos", controller.PostTodo)
 
-	engine.GET("api/todos", controller.GetTodo)
+	router.GET("api/todos", controller.GetTodo)
 
-	engine.PATCH("api/todos/:id/done", controller.PatchTodo)
+	router.PATCH("api/todos/:id/done", controller.PatchTodo)
+	return router.Run()
 }
 
 func (controller *RestController) PostTodo(context *gin.Context) {

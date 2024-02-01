@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	rest "todo-app/todo/controllers"
 	memory "todo-app/todo/repositorys"
 	"todo-app/todo/usecases"
@@ -10,9 +9,7 @@ import (
 func main() {
 	repo := memory.NewInMemoryTodoRepository()
 	useCase := usecases.NewTodoUseCase(repo)
-	router := gin.Default()
-	rest.NewRestController(router, useCase)
-	err := router.Run()
+	err := rest.NewRestController(useCase)
 	if err != nil {
 		return
 	}
